@@ -3,6 +3,19 @@ use std::io::BufReader;
 use std::io::BufRead;
 use clap::{App, Arg};
 
+// enum ASCII {
+//     Line1(String),
+//     Line2(String),
+//     Line3(String),
+//     Line4(String),
+//     Line5(String),
+//     Line6(String),
+//     Line7(String),
+//     Line8(String),
+//     Line9(String),
+//     Line11(String),
+//     Line10(String),
+// }
 
 fn main() {
     let matches = App::new("ego")
@@ -39,27 +52,46 @@ fn main() {
     // ascii-artify or not
     let ascii = matches.is_present("ascii-artify");
     if ascii {
-        for cc in text.join(" ").chars() {
-            if cc.is_alphabetic() { read_a_file(cc) }
-        }
+        ascii_artify(text)
+        // for cc in text.join(" ").chars() {
+        //     if cc.is_alphabetic() { read_a_file(cc) }
+        // }
     } else {
         print!("{}{}", text.join(" "), if omit_newline { "" } else { "\n" });
     }
 }
 
-fn read_a_file(letter: char) {
+fn ascii_artify(text: Vec<String>) {
+    let mut aa: [String; 11] = Default::default();
+
+    for letter in text.join(" ").chars() {
+        if letter.is_alphabetic() { 
+            let letvec = read_a_file(letter);
+            for (i, lv) in letvec.iter().enumerate() {
+                aa[i].push_str(lv)
+            }
+        }
+    }
+    
+    for line in &aa {
+        println!("{}", line)
+    }
+}
+
+fn read_a_file(letter: char) -> Vec<String> {
     let mut filename = String::from("letters/");
     filename.push(letter);
 
     let file = File::open(filename).expect("file wasn't found.");
     let reader = BufReader::new(file);
 
-    let numbers: Vec<String> = reader
+    let lines: Vec<String> = reader
         .lines()
         .map(|line| line.unwrap().parse::<String>().unwrap())
         .collect();
 
-    for n in numbers {
-        println!(r"{}", n)
-    }
+    // for n in lines {
+    //     println!("{}", n)
+    // }
+    return lines
 }
