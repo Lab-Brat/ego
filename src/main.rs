@@ -3,20 +3,6 @@ use std::io::BufReader;
 use std::io::BufRead;
 use clap::{App, Arg};
 
-// enum ASCII {
-//     Line1(String),
-//     Line2(String),
-//     Line3(String),
-//     Line4(String),
-//     Line5(String),
-//     Line6(String),
-//     Line7(String),
-//     Line8(String),
-//     Line9(String),
-//     Line11(String),
-//     Line10(String),
-// }
-
 fn main() {
     let matches = App::new("ego")
         .version("0.1.0")
@@ -49,13 +35,9 @@ fn main() {
     let text = matches.values_of_lossy("text").unwrap_or(shrug);
     let omit_newline = matches.is_present("omit_newline");
 
-    // ascii-artify or not
     let ascii = matches.is_present("ascii-artify");
     if ascii {
         ascii_artify(text)
-        // for cc in text.join(" ").chars() {
-        //     if cc.is_alphabetic() { read_a_file(cc) }
-        // }
     } else {
         print!("{}{}", text.join(" "), if omit_newline { "" } else { "\n" });
     }
@@ -72,10 +54,7 @@ fn ascii_artify(text: Vec<String>) {
             }
         }
     }
-    
-    for line in &aa {
-        println!("{}", line)
-    }
+    for line in &aa { println!("{}", line) }
 }
 
 fn read_a_file(letter: char) -> Vec<String> {
@@ -90,8 +69,5 @@ fn read_a_file(letter: char) -> Vec<String> {
         .map(|line| line.unwrap().parse::<String>().unwrap())
         .collect();
 
-    // for n in lines {
-    //     println!("{}", n)
-    // }
     return lines
 }
