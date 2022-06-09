@@ -28,10 +28,16 @@ fn main() {
                 .help("Print words in ASCII art")
                 .takes_value(false),
         )
+        .arg(
+            Arg::with_name("no-shrug")
+                .short("o")
+                .help("print nothing instead of shurg")
+                .takes_value(false)
+        )
     .get_matches();
     
     let mut shrug = Vec::new();
-    shrug.push(String::from("¯\\_(ツ)_/¯"));
+    if matches.is_present("no-shrug") { shrug.push(String::from("")) } else { shrug.push(String::from("¯\\_(ツ)_/¯")) }
     let text = matches.values_of_lossy("text").unwrap_or(shrug);
     let omit_newline = matches.is_present("omit_newline");
 
