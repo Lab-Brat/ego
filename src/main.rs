@@ -22,6 +22,12 @@ fn main() {
                 .takes_value(false),
         )
         .arg(
+            Arg::with_name("read_slash")
+                .short("e")
+                .help("Interpret backslash escapes")
+                .takes_value(false),
+        )
+        .arg(
             Arg::with_name("ascii-artify")
                 .short("a")
                 .long("ascii")
@@ -29,21 +35,33 @@ fn main() {
                 .takes_value(false),
         )
         .arg(
+            Arg::with_name("color-output")
+                .short("c")
+                .long("color")
+                .help("color echo output")
+                .takes_value(false),
+        )
+        .arg(
             Arg::with_name("no-shrug")
                 .short("o")
                 .help("print nothing instead of shurg")
-                .takes_value(false)
+                .takes_value(false),
         )
     .get_matches();
     
     let mut shrug = Vec::new();
     if matches.is_present("no-shrug") { shrug.push(String::from("")) } else { shrug.push(String::from("¯\\_(ツ)_/¯")) }
+    
     let text = matches.values_of_lossy("text").unwrap_or(shrug);
     let omit_newline = matches.is_present("omit_newline");
 
     let ascii = matches.is_present("ascii-artify");
+    let rs = matches.is_present("read_slash");
+
     if ascii {
         ascii_artify(text)
+    } else if rs { 
+        slash_parser(text)
     } else {
         print!("{}{}", text.join(" "), if omit_newline { "" } else { "\n" });
     }
@@ -76,4 +94,13 @@ fn read_a_file(letter: char) -> Vec<String> {
         .collect();
 
     return lines
+}
+
+fn slash_parser(text: Vec<String>) {
+    let text = text.join(" ");
+    if text.contains("\\n") {
+        for t in text.split("\\n") {
+            println!("{}", t)
+        }
+    }
 }
