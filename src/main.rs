@@ -98,9 +98,9 @@ fn read_a_file(letter: char) -> Vec<String> {
 
 fn slash_parser(text: Vec<String>) {
     let text = text.join(" ");
-    if text.contains("\\n") {
-        for t in text.split("\\n") {
-            println!("{}", t)
-        }
+
+    if text.contains("\\") {
+        let result = text.replace("\\n", "\n");
+        println!("{}", result);
     }
 }
