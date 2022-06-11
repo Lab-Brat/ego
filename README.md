@@ -27,3 +27,5 @@ cargo run
 ```-h``` or ```--help``` - display help message  
 ```-n``` or ```--drop-newline``` - do not add newline (\n) in the end of output  
 ```-a``` or ```--ascii``` - display user input in ascii format
+```-o``` - print empty user input without shrug emoji
+```-e``` - interpret escape symbols
