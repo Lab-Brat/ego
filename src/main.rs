@@ -99,8 +99,14 @@ fn read_a_file(letter: char) -> Vec<String> {
 fn slash_parser(text: Vec<String>) {
     let text = text.join(" ");
 
-    if text.contains("\\") {
+    if text.contains("\\n") {
         let result = text.replace("\\n", "\n");
+        println!("{}", result);
+    } else if text.contains("\\t") {
+        let result = text.replace("\\t", "\t");
+        println!("{}", result);
+    } else if text.contains("\\r") {
+        let result = text.replace("\\r", "\r");
         println!("{}", result);
     }
 }
