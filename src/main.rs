@@ -97,16 +97,20 @@ fn read_a_file(letter: char) -> Vec<String> {
 }
 
 fn slash_parser(text: Vec<String>) {
-    let text = text.join(" ");
-
-    if text.contains("\\n") {
-        let result = text.replace("\\n", "\n");
-        println!("{}", result);
-    } else if text.contains("\\t") {
-        let result = text.replace("\\t", "\t");
-        println!("{}", result);
-    } else if text.contains("\\r") {
-        let result = text.replace("\\r", "\r");
-        println!("{}", result);
+    let mut text = text.join(" ");
+    
+    let mut count = 0;
+    loop {
+        count += 1;
+        if text.contains("\\n") {
+            text = text.replace("\\n", "\n");
+        } else if text.contains("\\t") {
+            text = text.replace("\\t", "\t");
+        } else if text.contains("\\r") {
+            text = text.replace("\\r", "\r");
+        } else { () }
+        if count == text.len() { break; }
     }
+    
+    println!("{}", text);
 }
