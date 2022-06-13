@@ -1,35 +1,16 @@
 pub mod flags {
-    use std::fs::File;
-    use std::io::BufReader;
-    use std::io::BufRead;
-
     pub fn ascii_artify(text: Vec<String>) {
         let mut aa: [String; 11] = Default::default();
 
         for letter in text.join(" ").chars() {
             if letter.is_alphabetic() { 
-                let letvec = read_a_file(letter);
+                let letvec = self::utilities::read_a_file(letter);
                 for (i, lv) in letvec.iter().enumerate() {
                     aa[i].push_str(lv)
                 }
             }
         }
         for line in &aa { println!("{}", line) }
-    }
-
-    fn read_a_file(letter: char) -> Vec<String> {
-        let mut filename = String::from("letters/");
-        filename.push(letter);
-
-        let file = File::open(filename).expect("file wasn't found.");
-        let reader = BufReader::new(file);
-
-        let lines: Vec<String> = reader
-            .lines()
-            .map(|line| line.unwrap().parse::<String>().unwrap())
-            .collect();
-
-        return lines
     }
 
     pub fn slash_parser(text: Vec<String>) {
@@ -49,5 +30,25 @@ pub mod flags {
         }
         
         println!("{}", text);
+    }
+
+    pub mod utilities {
+        use std::fs::File;
+        use std::io::{BufRead, BufReader};
+        
+        pub fn read_a_file(letter: char) -> Vec<String> {
+            let mut filename = String::from("letters/");
+            filename.push(letter);
+    
+            let file = File::open(filename).expect("file wasn't found.");
+            let reader = BufReader::new(file);
+    
+            let lines: Vec<String> = reader
+                .lines()
+                .map(|line| line.unwrap().parse::<String>().unwrap())
+                .collect();
+    
+            return lines
+        }
     }
 }

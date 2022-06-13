@@ -52,7 +52,6 @@ fn main() {
     
     let text = matches.values_of_lossy("text").unwrap_or(shrug);
     let omit_newline = matches.is_present("omit_newline");
-
     let ascii = matches.is_present("ascii-artify");
     let rs = matches.is_present("read_slash");
 
