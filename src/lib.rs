@@ -4,7 +4,7 @@ pub mod flags {
 
         for letter in text.join(" ").chars() {
             if letter.is_alphabetic() { 
-                let letvec = self::utilities::read_a_file(letter);
+                let letvec = self::utilities::read_a_file(letter).unwrap();
                 for (i, lv) in letvec.iter().enumerate() {
                     aa[i].push_str(lv)
                 }
@@ -36,11 +36,11 @@ pub mod flags {
         use std::fs::File;
         use std::io::{BufRead, BufReader};
         
-        pub fn read_a_file(letter: char) -> Vec<String> {
+        pub fn read_a_file(letter: char) -> Result<Vec<String>, Box<dyn std::error::Error>> {
             let mut filename = String::from("letters/");
             filename.push(letter);
     
-            let file = File::open(filename).expect("file wasn't found.");
+            let file = File::open(filename)?;
             let reader = BufReader::new(file);
     
             let lines: Vec<String> = reader
@@ -48,7 +48,7 @@ pub mod flags {
                 .map(|line| line.unwrap().parse::<String>().unwrap())
                 .collect();
     
-            return lines
+            Ok(lines)
         }
     }
 }
