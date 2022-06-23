@@ -1,10 +1,17 @@
 pub mod flags {
+    use std::process;
+
     pub fn ascii_artify(text: Vec<String>) {
         let mut aa: [String; 11] = Default::default();
 
         for letter in text.join(" ").chars() {
             if letter.is_alphabetic() { 
-                let letvec = self::utilities::read_a_file(letter).unwrap();
+                let letvec = utilities::read_a_file(letter)
+                    .unwrap_or_else( |error| {
+                        println!("ERROR: {}", error);
+                        println!("One of the symbols doesn't exist in the ASCII art DB");
+                        process::exit(1);
+                    }); 
                 for (i, lv) in letvec.iter().enumerate() {
                     aa[i].push_str(lv)
                 }
@@ -39,10 +46,9 @@ pub mod flags {
         pub fn read_a_file(letter: char) -> Result<Vec<String>, Box<dyn std::error::Error>> {
             let mut filename = String::from("letters/");
             filename.push(letter);
-    
             let file = File::open(filename)?;
+
             let reader = BufReader::new(file);
-    
             let lines: Vec<String> = reader
                 .lines()
                 .map(|line| line.unwrap().parse::<String>().unwrap())
