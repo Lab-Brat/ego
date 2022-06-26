@@ -62,7 +62,7 @@ pub fn get_args() -> MyResult<Config> {
     .get_matches();
     
     Ok(Config {
-        text: matches.values_of_lossy("text").unwrap(),
+        text: matches.values_of_lossy("text").unwrap_or(vec![]),
         omit_newline: matches.is_present("omit_newline"),
         read_slash: matches.is_present("read_slash"),
         ascii_artify: matches.is_present("ascii-artify"),
@@ -73,9 +73,17 @@ pub fn get_args() -> MyResult<Config> {
 
 // ------------------------------------------------------------
 pub fn run(config: Config) -> MyResult<()> {
-    for i in config.text {
-        println!("{}", i)
+    let mut empty_output = String::new();
+    let shrug: &str = "¯\\_(ツ)_/¯";
+
+    if config.text.join(" ") == "" {
+        if config.no_shrug == false { empty_output.push_str(shrug) }
+        println!("{}", empty_output);
     }
+    else {
+        print!("{}{}", config.text.join(" "), '\n');
+    }
+    
     Ok(())
     
     // let mut shrug = Vec::new();
