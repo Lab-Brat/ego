@@ -1,6 +1,7 @@
 pub mod flags {
     use std::process;
-
+    
+    // ------------------------------------------------------------
     pub fn ascii_artify(text: Vec<String>) {
         let mut aa: [String; 11] = Default::default();
 
@@ -9,7 +10,8 @@ pub mod flags {
                 let letvec = utilities::read_a_file(letter)
                     .unwrap_or_else( |error| {
                         println!("ERROR: {}", error);
-                        println!("One of the symbols doesn't exist in the ASCII art DB");
+                        println!("One of the symbols doesn't exist \
+                                  in the ASCII art DB");
                         process::exit(1);
                     }); 
                 for (i, lv) in letvec.iter().enumerate() {
@@ -20,6 +22,7 @@ pub mod flags {
         for line in &aa { println!("{}", line) }
     }
 
+    // ------------------------------------------------------------
     pub fn slash_parser(text: Vec<String>) {
         let mut text = text.join(" ");
         
@@ -39,11 +42,13 @@ pub mod flags {
         println!("{}", text);
     }
 
+    // ------------------------------------------------------------
     pub mod utilities {
         use std::fs::File;
         use std::io::{BufRead, BufReader};
         
-        pub fn read_a_file(letter: char) -> Result<Vec<String>, Box<dyn std::error::Error>> {
+        pub fn read_a_file(letter: char) -> Result<Vec<String>, 
+                                    Box<dyn std::error::Error>> {
             let mut filename = String::from("letters/");
             filename.push(letter);
             let file = File::open(filename)?;
