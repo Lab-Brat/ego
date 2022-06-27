@@ -79,22 +79,21 @@ pub fn run(config: Config) -> MyResult<()> {
     let omit_newline = config.omit_newline ;
     let rs = config.read_slash ;
     let ascii = config.ascii_artify ;
-    let color_out = config.color_output ;
+    let _color_out = config.color_output ;
 
     if config.text.join(" ") == "" {
         if config.no_shrug == false { empty_output.push_str(shrug) }
         println!("{}", empty_output);
+    } else if ascii {
+        ascii_artify(config.text)
+    } else if rs { 
+        slash_parser(config.text)
+    } else {
+        print!("{}{}", config.text.join(" "), if omit_newline { "" } else { "\n" });
     }
     
     Ok(())
 
-    // if ascii {
-    //     ascii_artify(text)
-    // } else if rs { 
-    //     slash_parser(text)
-    // } else {
-    //     print!("{}{}", text.join(" "), if omit_newline { "" } else { "\n" });
-    // }
 }
     
 // ------------------------------------------------------------
