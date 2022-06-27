@@ -76,23 +76,17 @@ pub fn run(config: Config) -> MyResult<()> {
     let mut empty_output = String::new();
     let shrug: &str = "¯\\_(ツ)_/¯";
 
+    let omit_newline = config.omit_newline ;
+    let rs = config.read_slash ;
+    let ascii = config.ascii_artify ;
+    let color_out = config.color_output ;
+
     if config.text.join(" ") == "" {
         if config.no_shrug == false { empty_output.push_str(shrug) }
         println!("{}", empty_output);
     }
-    else {
-        print!("{}{}", config.text.join(" "), '\n');
-    }
     
     Ok(())
-    
-    // let mut shrug = Vec::new();
-    // if config.is_present("no-shrug") { shrug.push(String::from("")) } else { shrug.push(String::from("¯\\_(ツ)_/¯")) }
-    
-    // let text = config.values_of_lossy("text").unwrap_or(shrug);
-    // let omit_newline = config.is_present("omit_newline");
-    // let ascii = config.is_present("ascii-artify");
-    // let rs = config.is_present("read_slash");
 
     // if ascii {
     //     ascii_artify(text)
